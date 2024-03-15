@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .form-container {
+            margin-top: 50px;
+        }
+
+        .form-container form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-container h2 {
+            color: #000; /* Heading color black */
+            text-align: center;
+        }
+
+        .form-container form label {
+            color: #000; /* Change label color to black */
+        }
+
+        .btn-submit {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #333;
+        }
+
+        .hd-form {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container form-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="myForm" action="/submit" method="POST" onsubmit="return validateForm()">
+                    <h2 class="hd-form">Registration Form</h2>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                        <small id="nameError" class="form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                        <small id="emailError" class="form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                        <small id="phoneError" class="form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password"  autocomplete="off">
+                        <small id="passwordError" class="form-text text-danger"></small>
+                    </div>
+                    <button type="submit" class="btn btn-submit btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const passwordInput = document.getElementById('password');
+
+            // Reset error messages
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('phoneError').textContent = '';
+            document.getElementById('passwordError').textContent = '';
+
+            let isValid = true;
+
+            // Name validation
+            if (!nameInput.value.trim()) {
+                document.getElementById('nameError').textContent = 'Name is required';
+                isValid = false;
+            }
+
+            // Email validation
+            if (!emailInput.value.trim()) {
+                document.getElementById('emailError').textContent = 'Email is required';
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+                document.getElementById('emailError').textContent = 'Invalid email format';
+                isValid = false;
+            }
+
+            // Phone validation
+            if (!phoneInput.value.trim()) {
+                document.getElementById('phoneError').textContent = 'Phone number is required';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phoneInput.value.trim())) {
+                document.getElementById('phoneError').textContent = 'Invalid phone number format';
+                isValid = false;
+            }
+
+            // Password validation
+            if (!passwordInput.value.trim()) {
+                document.getElementById('passwordError').textContent = 'Password is required';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script> 
+</body>
+</html>

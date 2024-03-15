@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .button-container button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>User Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.phone %></td>
+                    <td><%= user.password %></td>
+                    <td class="button-container">
+                        <button onclick="editUser('<%= user.userId %>')">Edit</button>
+                        <button onclick="deleteUser('<%= user.userId %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <div class="add-user-btn">
+        <a href="/">
+            <button>Add User</button>
+        </a>
+    </div>
+    <script>
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                console.log('Delete user:', userId);
+                fetch(`/deleteUser?userId=${userId}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            // Refresh the page to reflect the changes
+                            location.reload();
+                        } else {
+                            console.error('Error deleting user:', result.error);
+                        }
+                    });
+            }
+        }
+
+        function editUser(userId) {
+            // Redirect to the edit page with user ID as a query parameter
+            window.location.href = `/editUser?userId=${encodeURIComponent(userId)}`;
+        }
+    </script>
+</body>
+</html>
